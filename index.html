@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="候補50社の企業調査と幸福度評価の進捗状況">
+  <title>企業調査の進捗 | 50社</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f4f7fb;
+      --surface: #ffffff;
+      --ink: #182235;
+      --muted: #596579;
+      --line: #dce3ec;
+      --track: #e8edf4;
+      --complete: #087f72;
+      --partial: #d79220;
+      --open: #9aa6b6;
+      --link: #1456a0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --page: #101722;
+        --surface: #182231;
+        --ink: #edf2f8;
+        --muted: #b5c0cf;
+        --line: #303e50;
+        --track: #2c394a;
+        --complete: #49c6ad;
+        --partial: #e8b04c;
+        --open: #8190a4;
+        --link: #91c3ff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(100% - 32px, 880px); margin: 0 auto; padding: 40px 0 56px; }
+    header { margin-bottom: 24px; }
+    .eyebrow { margin: 0 0 8px; color: var(--muted); font-size: .88rem; }
+    h1 { margin: 0; font-size: clamp(1.65rem, 5vw, 2.2rem); line-height: 1.2; }
+    h2 { margin: 0 0 18px; font-size: 1.15rem; }
+    p { margin: 0; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .metric {
+      min-width: 0;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .metric-label { color: var(--muted); font-size: .9rem; }
+    .metric-value { display: block; margin-top: 4px; font-size: 1.65rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .metric-note { margin-top: 4px; color: var(--muted); font-size: .82rem; }
+    section { margin-top: 28px; }
+    .chart {
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .big-value { font-size: clamp(2rem, 8vw, 3.25rem); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+    .chart-caption { margin: 8px 0 18px; color: var(--muted); }
+    .track {
+      display: flex;
+      width: 100%;
+      height: 20px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--track);
+    }
+    .segment { height: 100%; }
+    .complete { background: var(--complete); }
+    .partial { background: var(--partial); }
+    .unscored { background: var(--open); }
+    .single-progress { height: 12px; margin-top: 12px; }
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .legend-item { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+    .swatch { flex: 0 0 12px; width: 12px; height: 12px; margin-top: 5px; border-radius: 3px; }
+    .legend-label { display: block; color: var(--muted); font-size: .88rem; }
+    .legend-count { display: block; font-size: 1.12rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .issues { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .issue {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 16px;
+      border-top: 1px solid var(--line);
+    }
+    .issue:first-child { border-top: 0; }
+    .issue a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .status { flex: 0 0 auto; color: var(--muted); font-size: .78rem; font-weight: 650; letter-spacing: .04em; }
+    .note { margin-top: 12px; color: var(--muted); font-size: .86rem; }
+    footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+    footer a { color: var(--link); }
+    @media (max-width: 620px) {
+      main { width: min(100% - 24px, 880px); padding-top: 28px; }
+      .summary { grid-template-columns: 1fr; gap: 8px; margin: 18px 0; }
+      .metric { padding: 12px 14px; }
+      .metric-value { font-size: 1.4rem; }
+      .chart { padding: 16px; }
+      .legend { grid-template-columns: 1fr; gap: 8px; }
+      .issue { align-items: flex-start; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">企業研究　/　確認日 2026年10月6日</p>
+      <h1>候補50社の調査進捗</h1>
+    </header>
+
+    <div class="summary" aria-label="調査進捗の概要">
+      <div class="metric">
+        <span class="metric-label">基本比較表</span>
+        <strong class="metric-value">50 / 50社</strong>
+        <p class="metric-note">候補企業をすべて掲載</p>
+      </div>
+      <div class="metric">
+        <span class="metric-label">幸福度5軸の平均カバー率</span>
+        <strong class="metric-value">71.9%</strong>
+        <p class="metric-note">全50社の評価項目入力率の平均</p>
+      </div>
+      <div class="metric">
+        <span class="metric-label">暫定総合点あり</span>
+        <strong class="metric-value">36 / 50社</strong>
+        <p class="metric-note">未確認の評価軸は保留</p>
+      </div>
+    </div>
+
+    <section aria-labelledby="score-heading">
+      <h2 id="score-heading">5軸評価の入力状況</h2>
+      <div class="chart">
+        <div class="big-value">71.9%</div>
+        <p class="chart-caption">5軸（働き方・健康、仕事内容との適合、人・組織、経済、勤務地）の平均カバー率</p>
+        <div class="track single-progress" role="progressbar" aria-label="幸福度5軸の平均カバー率" aria-valuenow="71.9" aria-valuemin="0" aria-valuemax="100">
+          <div class="segment complete" style="width:71.9%"></div>
+        </div>
+        <div class="track" role="img" aria-label="50社の内訳：5軸完備13社、一部カバーで暫定採点23社、未採点14社" style="margin-top:28px">
+          <div class="segment complete" style="width:26%"></div>
+          <div class="segment partial" style="width:46%"></div>
+          <div class="segment unscored" style="width:28%"></div>
+        </div>
+        <div class="legend" aria-label="会社数の内訳">
+          <div class="legend-item"><span class="swatch complete" aria-hidden="true"></span><span><span class="legend-label">5軸すべて入力済み</span><span class="legend-count">13社 / 50社</span></span></div>
+          <div class="legend-item"><span class="swatch partial" aria-hidden="true"></span><span><span class="legend-label">一部入力・暫定採点</span><span class="legend-count">23社 / 50社</span></span></div>
+          <div class="legend-item"><span class="swatch unscored" aria-hidden="true"></span><span><span class="legend-label">総合点は未算出</span><span class="legend-count">14社 / 50社</span></span></div>
+        </div>
+      </div>
+      <p class="note">カバー率は評価軸の情報入力状況です。待遇・選考・配属後の実態まで調べ終えた会社の割合を示すものではありません。</p>
+    </section>
+
+    <section aria-labelledby="issues-heading">
+      <h2 id="issues-heading">詳細調査の分割Issue <span class="status">0 / 5 完了</span></h2>
+      <div class="issues">
+        <div class="issue"><a href="https://github.com/SMRI2170/resume/issues/3">1〜10社　Web・SaaS・プラットフォーム</a><span class="status">OPEN</span></div>
+        <div class="issue"><a href="https://github.com/SMRI2170/resume/issues/4">11〜20社　SaaS・AI・セキュリティ</a><span class="status">OPEN</span></div>
+        <div class="issue"><a href="https://github.com/SMRI2170/resume/issues/5">21〜30社　IT・Web・SIer</a><span class="status">OPEN</span></div>
+        <div class="issue"><a href="https://github.com/SMRI2170/resume/issues/6">31〜40社　SIer・メーカー・通信</a><span class="status">OPEN</span></div>
+        <div class="issue"><a href="https://github.com/SMRI2170/resume/issues/7">41〜50社　セキュリティ・ヘルスケア・IT</a><span class="status">OPEN</span></div>
+      </div>
+      <p class="note">各Issueに未完了の確認項目があるため、すべて継続中です。OPENは調査未着手を意味しません。</p>
+    </section>
+
+    <footer>
+      <p>幸福度スコアのデータ基準日：2026年10月4日。調査Issueの状態確認：2026年10月6日。</p>
+      <p style="margin-top:8px"><a href="https://github.com/SMRI2170/resume/issues/2">全体管理Issue</a> · <a href="https://github.com/SMRI2170/resume/blob/SMRI2170/fetch-current-major-data/companies/_本選考候補50社_待遇・口コミ・関西.md">50社比較表</a> · <a href="https://github.com/SMRI2170/resume/blob/SMRI2170/fetch-current-major-data/companies/happiness-scores-20261004.json">評価データ</a></p>
+    </footer>
+  </main>
+</body>
+</html>
